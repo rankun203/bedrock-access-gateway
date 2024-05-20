@@ -380,132 +380,16 @@
         "aws:cdk:path": "BedrockProxy/Proxy/ApiHandler/Resource"
       }
     },
-    "ProxyApiHandlerInvoke2UTWxhlfyqbT5FTn5jvgbLgjFfJwzswGk55DU1HYF6C33779": {
-      "Type": "AWS::Lambda::Permission",
+    "ProxyApiHandlerUrl": {
+      "Type": "AWS::Lambda::Url",
       "Properties": {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "ProxyApiHandlerEC15A492",
-            "Arn"
-          ]
-        },
-        "Principal": "elasticloadbalancing.amazonaws.com"
-      },
-      "Metadata": {
-        "aws:cdk:path": "BedrockProxy/Proxy/ApiHandler/Invoke2UTWxhlfyqbT5FTn--5jvgbLgj+FfJwzswGk55DU1H--Y="
-      }
-    },
-    "ProxyALB87756780": {
-      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
-      "Properties": {
-        "LoadBalancerAttributes": [
-          {
-            "Key": "deletion_protection.enabled",
-            "Value": "false"
-          }
-        ],
-        "Scheme": "internet-facing",
-        "SecurityGroups": [
-          {
-            "Fn::GetAtt": [
-              "ProxyALBSecurityGroup0D6CA3DA",
-              "GroupId"
-            ]
-          }
-        ],
-        "Subnets": [
-          {
-            "Ref": "VPCPublicSubnet1SubnetB4246D30"
-          },
-          {
-            "Ref": "VPCPublicSubnet2Subnet74179F39"
-          }
-        ],
-        "Type": "application"
-      },
-      "DependsOn": [
-        "VPCPublicSubnet1DefaultRoute91CEF279",
-        "VPCPublicSubnet1RouteTableAssociation0B0896DC",
-        "VPCPublicSubnet2DefaultRouteB7481BBA",
-        "VPCPublicSubnet2RouteTableAssociation5A808732"
-      ],
-      "Metadata": {
-        "aws:cdk:path": "BedrockProxy/Proxy/ALB/Resource"
-      }
-    },
-    "ProxyALBSecurityGroup0D6CA3DA": {
-      "Type": "AWS::EC2::SecurityGroup",
-      "Properties": {
-        "GroupDescription": "Automatically created Security Group for ELB BedrockProxyALB1CE4CAD1",
-        "SecurityGroupEgress": [
-          {
-            "CidrIp": "255.255.255.255/32",
-            "Description": "Disallow all traffic",
-            "FromPort": 252,
-            "IpProtocol": "icmp",
-            "ToPort": 86
-          }
-        ],
-        "SecurityGroupIngress": [
-          {
-            "CidrIp": "0.0.0.0/0",
-            "Description": "Allow from anyone on port 80",
-            "FromPort": 80,
-            "IpProtocol": "tcp",
-            "ToPort": 80
-          }
-        ],
-        "VpcId": {
-          "Ref": "VPCB9E5F0B4"
+        "AuthType": "NONE",
+        "TargetFunctionArn": {
+          "Ref": "ProxyApiHandlerEC15A492"
         }
       },
       "Metadata": {
-        "aws:cdk:path": "BedrockProxy/Proxy/ALB/SecurityGroup/Resource"
-      }
-    },
-    "ProxyALBListener933E9515": {
-      "Type": "AWS::ElasticLoadBalancingV2::Listener",
-      "Properties": {
-        "DefaultActions": [
-          {
-            "TargetGroupArn": {
-              "Ref": "ProxyALBListenerTargetsGroup187739FA"
-            },
-            "Type": "forward"
-          }
-        ],
-        "LoadBalancerArn": {
-          "Ref": "ProxyALB87756780"
-        },
-        "Port": 80,
-        "Protocol": "HTTP"
-      },
-      "Metadata": {
-        "aws:cdk:path": "BedrockProxy/Proxy/ALB/Listener/Resource"
-      }
-    },
-    "ProxyALBListenerTargetsGroup187739FA": {
-      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
-      "Properties": {
-        "HealthCheckEnabled": false,
-        "TargetType": "lambda",
-        "Targets": [
-          {
-            "Id": {
-              "Fn::GetAtt": [
-                "ProxyApiHandlerEC15A492",
-                "Arn"
-              ]
-            }
-          }
-        ]
-      },
-      "DependsOn": [
-        "ProxyApiHandlerInvoke2UTWxhlfyqbT5FTn5jvgbLgjFfJwzswGk55DU1HYF6C33779"
-      ],
-      "Metadata": {
-        "aws:cdk:path": "BedrockProxy/Proxy/ALB/Listener/TargetsGroup/Resource"
+        "aws:cdk:path": "BedrockProxy/Proxy/ApiHandler/Url"
       }
     },
     "CDKMetadata": {
@@ -539,18 +423,9 @@
     "APIBaseUrl": {
       "Description": "Proxy API Base URL (OPENAI_API_BASE)",
       "Value": {
-        "Fn::Join": [
-          "",
-          [
-            "http://",
-            {
-              "Fn::GetAtt": [
-                "ProxyALB87756780",
-                "DNSName"
-              ]
-            },
-            "/api/v1"
-          ]
+        "Fn::GetAtt": [
+          "ProxyApiHandlerUrl",
+          "FunctionUrl"
         ]
       }
     }
