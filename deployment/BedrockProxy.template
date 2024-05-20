@@ -392,6 +392,17 @@
         "aws:cdk:path": "BedrockProxy/Proxy/ApiHandler/Url"
       }
     },
+    "ProxyApiHandlerUrlPermission": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunctionUrl",
+        "FunctionName": {
+          "Ref": "ProxyApiHandlerEC15A492"
+        },
+        "Principal": "*",
+        "FunctionUrlAuthType": "NONE"
+      }
+    },
     "CDKMetadata": {
       "Type": "AWS::CDK::Metadata",
       "Properties": {
