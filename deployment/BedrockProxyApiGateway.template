@@ -1,5 +1,5 @@
 {
-  "Description": "Bedrock Access Gateway - OpenAI-compatible RESTful APIs for Amazon Bedrock. Template file is https://github.com/rankun203/bedrock-access-gateway/edit/main/deployment/BedrockProxy.template",
+  "Description": "Bedrock Access Gateway - OpenAI-compatible RESTful APIs for Amazon Bedrock. Template file is https://github.com/rankun203/bedrock-access-gateway/edit/main/deployment/BedrockProxyApiGateway.template",
   "Transform": "AWS::LanguageExtensions",
   "Parameters": {
     "ApiKeyParam": {
